@@ -1,85 +1,158 @@
-<h2 align="center">
+<div align="center">
   <img src="https://raw.githubusercontent.com/armbian/.github/master/profile/logo.png" alt="Armbian logo" width="25%">
-  <br><br>
-</h2>
+  <br>
+  <h1>Armbian para TV Box com SoC Rockchip RK322x</h1>
+</div>
 
-### Purpose of This Repository
+Este repositório é um fork do [Armbian Build Framework](https://github.com/armbian/build), o framework oficial para compilação de imagens Armbian.
 
-The **Armbian Linux Build Framework** creates minimal, efficient, and fully [customizable operating system images](https://docs.armbian.com/#key-features) based on **Debian** or **Ubuntu**. It is designed specifically for **low-resource single board computers (SBCs)** and other embedded devices.
+O objetivo principal deste fork **não é a compilação**, mas sim fornecer uma **documentação consolidada e em português** para a instalação do sistema Armbian em TV Boxes baseadas no SoC Rockchip RK322x (como a MXQ Pro 4K, HK1 Mini, etc.). As instruções foram adaptadas do [tutorial oficial no fórum da Armbian]([COLOQUE AQUI O LINK DO POST NO FÓRUM]).
 
-This toolchain compiles a custom **Linux kernel**, **bootloader**, and **root filesystem**, providing fine-grained control over:
+---
 
-- Kernel versions and configuration
-- Bootloader selection and customization
-- Filesystem layout and compression
-- Additional firmware, overlays, and device trees
-- System optimizations for performance and size
+### ⚠️ **Aviso Importante**
 
-The framework supports **native**, **cross**, and **containerized** builds for multiple architectures (`x86_64`, `aarch64`, `armhf`, `riscv64`), and is suitable for development, testing, production deployment, or automation pipelines.
+> O procedimento descrito abaixo, especialmente a instalação na memória interna (eMMC/NAND), substitui o sistema Android original e pode **inutilizar permanentemente (brickar)** seu dispositivo se algo der errado (como uma queda de energia ou o uso de uma imagem incompatível).
+>
+> **Prossiga por sua conta e risco.** Recomenda-se testar o boot pelo cartão SD antes de qualquer instalação permanente.
 
-It ensures **consistency across devices** while remaining modular and extensible through a variety of configuration files, templates, and user patches.
+---
 
-### Quick Start
+## **Índice**
+
+1.  [**Pré-requisitos**](#-pré-requisitos)
+2.  [**Downloads Essenciais**](#-downloads-essenciais)
+3.  [**Instruções de Instalação**](#-instruções-de-instalação)
+    * [**Método 1: Rodando a partir do Cartão SD**](#método-1-rodando-a-partir-do-cartão-sd-recomendado-para-iniciantes)
+    * [**Método 2: Instalação na Memória Interna (eMMC)**](#método-2-instalação-na-memória-interna-emmc)
+    * [**Método 3: Instalação na Memória Interna (NAND)**](#método-3-instalação-na-memória-interna-nand)
+4.  [**Configuração Pós-Instalação**](#-configuração-pós-instalação)
+5.  [**Informações Adicionais**](#-informações-adicionais)
+    * [Ordem de Boot](#ordem-de-boot)
+6.  [**Créditos e Projeto Original**](#-créditos-e-projeto-original)
+
+---
+
+### ✅ **Pré-requisitos**
+
+Antes de começar, você precisará de:
+
+* **Uma TV Box** com SoC Rockchip RK3228A ou RK3229.
+* **Um cartão MicroSD** de boa qualidade (Classe 10, mínimo de 8 GB).
+* **Um computador** com leitor de cartão SD.
+* **Software para gravar imagens:** [Balena Etcher](https://www.balena.io/etcher/) ou similar.
+* **Fonte de alimentação** da TV Box e cabo HDMI.
+
+---
+
+### 📥 **Downloads Essenciais**
+
+Você precisará de duas imagens principais: a imagem do **Armbian** e a imagem da ferramenta **Multitool**.
+
+1.  **Imagem do Armbian para RK322x:**
+    * **Recomendado (Nightly Builds):** Imagens semanais automáticas. Procure pelo `rk322x-box` na lista:
+        * [**Nightly Builds no GitHub**](https://github.com/armbian/community/releases)
+    * **Imagens de Arquivo (Archive):** Versões mais antigas e estáveis.
+        * [**Archive Builds**](https://imola.armbian.com/dl/rk322x-box/archive/)
+
+2.  **Imagem do Multitool:**
+    * O **Multitool** é uma ferramenta de manutenção essencial para fazer backup, restaurar e, principalmente, gravar a imagem do Armbian na memória interna do seu aparelho.
+    * [**Baixe o Multitool aqui**]([COLOQUE AQUI O LINK DIRETO PARA O MULTITOOL MENCIONADO NO FÓRUM])
+
+---
+
+### ⚙️ **Instruções de Instalação**
+
+Escolha o método que melhor se adapta à sua necessidade.
+
+#### **Método 1: Rodando a partir do Cartão SD (Recomendado para iniciantes)**
+
+Este método permite usar o Armbian sem apagar o Android original.
+
+1.  **Prepare o ambiente:** Se sua TV Box ainda tem o Android instalado, você **precisa primeiro apagar a memória interna** para que ela possa dar boot pelo SD.
+    * Grave a imagem do **Multitool** em um cartão SD usando o Balena Etcher.
+    * Insira o SD na TV Box e ligue-a na energia. A ferramenta irá iniciar.
+    * **(Opcional, mas recomendado)** Use a opção `Backup flash` para salvar seu sistema Android.
+    * Selecione a opção `Erase flash` e confirme. Ao terminar, desligue a TV Box.
+
+2.  **Grave o Armbian no Cartão SD:** Use o Balena Etcher para gravar a imagem do **Armbian** (que você baixou anteriormente) no mesmo cartão SD.
+
+3.  **Inicie o Sistema:**
+    * Insira o cartão SD com Armbian na TV Box.
+    * Conecte o cabo de energia.
+    * Aguarde. O primeiro boot pode demorar vários minutos para redimensionar o sistema de arquivos. Um LED piscando e imagem no HDMI são bons sinais.
+
+4.  **Configure o Armbian:** Siga as instruções do [**passo de configuração final**](#-configuração-pós-instalação).
+
+#### **Método 2: Instalação na Memória Interna (eMMC)**
+
+Este método apaga o Android e instala o Armbian permanentemente na TV Box.
+
+1.  **Grave o Multitool:** Use o Balena Etcher para gravar a imagem do **Multitool** em seu cartão SD.
+2.  **Copie a imagem do Armbian:** Após gravar, o SD terá uma partição visível no seu computador (geralmente NTFS). Copie o arquivo de imagem do **Armbian** (ex: `Armbian_2X.XX_Rk322x-box_jammy_legacy_5.10.160.img.gz`) para a pasta `images` dentro desta partição.
+3.  **Inicie o Multitool:** Insira o SD na TV Box e conecte a energia. O menu do Multitool aparecerá na tela.
+4.  **(Opcional, mas recomendado)** Use a opção `Backup flash` para salvar seu sistema Android.
+5.  **Grave a Imagem:**
+    * Selecione a opção `Burn image to flash`.
+    * Escolha o dispositivo de destino (geralmente `mmcblk2`).
+    * Selecione a imagem do Armbian que você copiou.
+6.  **Finalize:** Aguarde o processo terminar. Quando acabar, escolha `Shutdown` no menu.
+7.  **Primeiro Boot:** Desconecte a energia, **remova o cartão SD** e reconecte a energia. O Armbian começará a iniciar da memória interna. O primeiro boot é demorado.
+8.  **Configure o Armbian:** Siga as instruções do [**passo de configuração final**](#-configuração-pós-instalação).
+
+#### **Método 3: Instalação na Memória Interna (NAND)**
+
+O processo é quase idêntico ao de eMMC, mas com uma opção específica no menu.
+
+1.  **Siga os passos 1, 2 e 3** do método eMMC.
+2.  **(Opcional, mas recomendado)** Use a opção `Backup flash`.
+3.  **Grave a Imagem:**
+    * Selecione a opção `Burn Armbian image via steP-nand`. **Certifique-se de usar uma imagem de kernel LEGACY.**
+    * Escolha o dispositivo de destino (geralmente `rknand0`).
+    * Selecione a imagem do Armbian.
+4.  **Finalize e Configure:** Siga os passos 6, 7 e 8 do método eMMC.
+
+---
+
+### 🚀 **Configuração Pós-Instalação**
+
+Após o primeiro boot, o sistema pedirá para você:
+
+1.  Criar uma senha para o usuário `root`.
+2.  Criar um novo usuário padrão e sua senha.
+
+Depois de fazer o login com seu novo usuário, execute os seguintes comandos para configurar o hardware específico da sua box e as opções do sistema:
 
 ```bash
-git clone https://github.com/armbian/build
-cd build
-./compile.sh
+# Para configurar o hardware (LEDs, Wi-Fi, velocidade da eMMC, etc.)
+sudo rk322x-config
+
+# Para configurar opções do sistema (fuso horário, idioma, etc.)
+sudo armbian-config
 ```
 
-### Resources
+Parabéns, seu Armbian está instalado e configurado!
 
-[Documentation](https://docs.armbian.com/Developer-Guide_Overview/) • [Website](https://www.armbian.com) • [Blog](https://blog.armbian.com) • [Community Forums](https://forum.armbian.com)
+---
 
+### ℹ️ **Informações Adicionais**
 
+#### **Ordem de Boot**
 
-<a href="#how-to-build-an-image-or-a-kernel"><img src=".github/README.gif" alt="Armbian logo" width="100%"></a>
+Quando o bootloader U-Boot do Armbian está instalado na memória interna (eMMC/NAND), ele procura por um sistema para iniciar na seguinte ordem:
 
-### Build Host Requirements
+1.  **Cartão SD Externo**
+2.  **Dispositivo USB Externo** (na porta OTG)
+3.  **Memória eMMC Interna**
 
-- **Supported Architectures:** `x86_64`, `aarch64`, `riscv64`
-- **System:** VM, container, or bare-metal with:
-  - **≥ 8GB RAM** (less with `KERNEL_BTF=no`)
-  - **~50GB disk space**
-- **Operating System:**
-  - Armbian / Ubuntu 24.04 (Noble) for native builds
-  - Any Docker-capable Linux for containerized setup
-- **Windows:** Windows 10/11 with WSL2 running Armbian / Ubuntu 24.04
-- **Access:** Superuser rights (`sudo` or `root`)
-- **Important:** Keep your system up-to-date — outdated tools (e.g., Docker) can cause issues.
+Isso significa que, mesmo com o Armbian instalado internamente, você ainda pode dar boot por um cartão SD ou USB simplesmente inserindo-o antes de ligar o aparelho.
 
-### Download
+---
 
-Prebuilt Armbian OS Images: <https://www.armbian.com/download>
+### ❤️ **Créditos e Projeto Original**
 
-### Contribute
+Todo o crédito pelo incrível trabalho de desenvolvimento do sistema Armbian e das ferramentas de compilação vai para a **equipe Armbian e seus contribuidores**.
 
-Learn how to report issues, suggest improvements, or submit code: [CONTRIBUTING.md](CONTRIBUTING.md)
-
-### Support
-
-Armbian offers multiple support channels, depending on your needs:
-
-- **Community Forums**  
-  Get help from fellow users and contributors on a wide range of topics — from troubleshooting to development.  
-  👉 [forum.armbian.com](https://forum.armbian.com)
-
-- **Discord / IRC/ Matrix Chat**  
-  Join real-time discussions with developers and community members for faster feedback and collaboration.  
-  👉 [Community Chat](https://docs.armbian.com/Community_IRC/)
-
-- **Paid Consultation**  
-  For advanced needs, commercial projects, or guaranteed response times, paid support is available directly from Armbian maintainers.  
-  👉 [Contact us](https://www.armbian.com/contact) to discuss consulting options.
-
-### Contributors
-
-Thank you to all the people who already contributed to Armbian!
-
-<a href="https://github.com/armbian/build/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=armbian/build" />
-</a>
-
-## Armbian Partners
-
-Armbian's [partnership program](https://forum.armbian.com/subscriptions) helps to support Armbian and the Armbian community! Please take a moment to familiarize yourself with [our Partners](https://armbian.com/partners).
+* **Repositório do Build Framework (Original):** [https://github.com/armbian/build](https://github.com/armbian/build)
+* **Site Oficial:** [https://www.armbian.com](https://www.armbian.com)
+* **Fórum da Comunidade:** [https://forum.armbian.com](https://forum.armbian.com)

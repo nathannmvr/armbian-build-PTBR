@@ -57,7 +57,7 @@ Você precisará de duas imagens principais: a imagem do **Armbian** e a imagem 
 
 2.  **Imagem do Multitool:**
     * O **Multitool** é uma ferramenta de manutenção essencial para fazer backup, restaurar e, principalmente, gravar a imagem do Armbian na memória interna do seu aparelho.
-    * [**Baixe o Multitool aqui**]([COLOQUE AQUI O LINK DIRETO PARA O MULTITOOL MENCIONADO NO FÓRUM])
+    * [**Baixe o Multitool aqui**](https://users.armbian.com/jock/web/rk322x/multitool/multitool.img.xz)
 
 ---
 

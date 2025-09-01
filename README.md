@@ -6,7 +6,7 @@
 
 Este repositório é um fork do [Armbian Build Framework](https://github.com/armbian/build), o framework oficial para compilação de imagens Armbian.
 
-O objetivo principal deste fork **não é a compilação**, mas sim fornecer uma **documentação consolidada e em português** para a instalação do sistema Armbian em TV Boxes baseadas no SoC Rockchip RK322x (como a MXQ Pro 4K, HK1 Mini, etc.). As instruções foram adaptadas do [tutorial oficial no fórum da Armbian]([COLOQUE AQUI O LINK DO POST NO FÓRUM]).
+O objetivo principal deste fork **não é a compilação**, mas sim fornecer uma **documentação consolidada e em português** para a instalação do sistema Armbian em TV Boxes baseadas no SoC Rockchip RK322x (como a MXQ Pro 4K, HK1 Mini, etc.). As instruções foram adaptadas do tópico guia [CSC Armbian for RK322x TV box boards](https://forum.armbian.com/topic/34923-csc-armbian-for-rk322x-tv-box-boards/) no fórum oficial.
 
 ---
 
@@ -29,6 +29,7 @@ O objetivo principal deste fork **não é a compilação**, mas sim fornecer uma
 4.  [**Configuração Pós-Instalação**](#-configuração-pós-instalação)
 5.  [**Informações Adicionais**](#-informações-adicionais)
     * [Ordem de Boot](#ordem-de-boot)
+    * [Compilando sua Própria Imagem (Avançado)](#compilando-sua-própria-imagem-avançado)
 6.  [**Créditos e Projeto Original**](#-créditos-e-projeto-original)
 
 ---
@@ -146,6 +147,28 @@ Quando o bootloader U-Boot do Armbian está instalado na memória interna (eMMC/
 3.  **Memória eMMC Interna**
 
 Isso significa que, mesmo com o Armbian instalado internamente, você ainda pode dar boot por um cartão SD ou USB simplesmente inserindo-o antes de ligar o aparelho.
+
+#### Compilando sua Própria Imagem (Avançado)
+
+Para usuários avançados que desejam personalizar a imagem (incluindo o kernel mais recente, patches específicos ou pacotes pré-instalados), é possível compilar uma versão do Armbian do zero. O processo utiliza o framework de compilação original do Armbian.
+
+1.  **Clone o repositório original do Armbian Build Framework:**
+    ```bash
+    git clone --depth=1 [https://github.com/armbian/build](https://github.com/armbian/build)
+    cd build
+    ```
+
+2.  **Execute o script de compilação:**
+    ```bash
+    sudo ./compile.sh
+    ```
+
+3.  **Selecione a placa correta:**
+    > **Ponto Crítico:** Durante a execução do script, você será apresentado a um menu interativo. Para compilar a imagem para esta TV Box, você deve navegar e selecionar a placa correta:
+    > 1. Primeiro, escolha a opção que mostra as placas `CSC / TVB / EOL`.
+    > 2. Na lista seguinte, selecione a placa **`rk322x-box`**.
+
+O script irá baixar todas as dependências e compilar o bootloader, o kernel e o sistema de arquivos. Para mais detalhes sobre as opções de compilação e os requisitos de sistema (como SO, RAM e espaço em disco), consulte a [documentação oficial do Armbian para desenvolvedores](https://docs.armbian.com/Developer-Guide_Overview/).
 
 ---
 

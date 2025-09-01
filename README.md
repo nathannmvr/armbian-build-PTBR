@@ -63,7 +63,7 @@ Você precisará de duas imagens principais: a imagem do **Armbian** e a imagem 
 
 ### ⚙️ **Instruções de Instalação**
 
-Escolha o método que melhor se adapta à sua necessidade.
+Escolha o método que melhor se adapta à sua necessidade. Para os métodos eMMC e NAND você precisa saber o tipo de memória da TV Box, caso não saiba pode ir com o primeiro método ou testar os outros dois e ver qual vai funcionar.
 
 #### **Método 1: Rodando a partir do Cartão SD (Recomendado para iniciantes)**
 
@@ -156,3 +156,4 @@ Todo o crédito pelo incrível trabalho de desenvolvimento do sistema Armbian e 
 * **Repositório do Build Framework (Original):** [https://github.com/armbian/build](https://github.com/armbian/build)
 * **Site Oficial:** [https://www.armbian.com](https://www.armbian.com)
 * **Fórum da Comunidade:** [https://forum.armbian.com](https://forum.armbian.com)
+* **Tópico Guia Para RK322x:** [CSC Armbian for RK322x TV box boards](https://forum.armbian.com/topic/34923-csc-armbian-for-rk322x-tv-box-boards/)

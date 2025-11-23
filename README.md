@@ -55,6 +55,7 @@ Você precisará de duas imagens principais: a imagem do **Armbian** e a imagem 
         * [**Nightly Builds no GitHub**](https://github.com/armbian/community/releases)
     * **Imagens de Arquivo (Archive):** Versões mais antigas e estáveis.
         * [**Archive Builds**](https://rsync.armbian.com/oldarchive/rk322x-box/archive/)
+        * [**Archive Builds 2**](https://armbian.tnahosting.net/archive/rk322x-box/archive/)
 
 2.  **Imagem do Multitool:**
     * O **Multitool** é uma ferramenta de manutenção essencial para fazer backup, restaurar e, principalmente, gravar a imagem do Armbian na memória interna do seu aparelho.

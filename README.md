@@ -75,7 +75,8 @@ Este método permite usar o Armbian sem apagar o Android original.
     * Grave a imagem do **Multitool** em um cartão SD usando o Balena Etcher.
     * Insira o SD na TV Box e ligue-a na energia. A ferramenta irá iniciar.
     * **(Opcional, mas recomendado)** Use a opção `Backup flash` para salvar seu sistema Android.
-    * Selecione a opção `Erase flash` e confirme. Ao terminar, desligue a TV Box.
+    * Selecione a opção `Erase flash` e confirme. Ao terminar, volte ao menu do multitool.
+    * Selecione a opção `Install Jump start on NAND` e confirme. Ao terminar, desligue a TVBox.
 
 2.  **Grave o Armbian no Cartão SD:** Use o Balena Etcher para gravar a imagem do **Armbian** (que você baixou anteriormente) no mesmo cartão SD.
 
